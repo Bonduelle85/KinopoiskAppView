@@ -1,9 +1,11 @@
 package com.example.kinopoiskappview.domain
 
-import androidx.lifecycle.LiveData
+import com.example.kinopoiskappview.domain.model.Movie
+import kotlinx.coroutines.flow.Flow
 
-class GetMovieListUseCase() {
+class GetMovieListUseCase(
+    private val repository: Repository
+) {
 
-    val repository = Repository()
-    operator fun invoke(): LiveData<List<CoinInfo>> = repository.getCoinInfoList()
+     operator fun invoke(): Flow<List<Movie>> = repository.getMovieList()
 }
