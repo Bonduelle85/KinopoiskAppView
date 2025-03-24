@@ -5,11 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import kotlinx.coroutines.CoroutineScope
 
 @Database(entities = [MovieDbModel::class,], version = 1, exportSchema = false,)
 @TypeConverters(TypeConverter::class)
-
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun moviesDao(): MoviesDao
@@ -21,7 +19,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private val MONITOR = Any()
 
-        fun getInstance(context: Context, scope: CoroutineScope): AppDatabase {
+        fun getInstance(context: Context): AppDatabase {
             INSTANCE?.let {
                 return it
             }

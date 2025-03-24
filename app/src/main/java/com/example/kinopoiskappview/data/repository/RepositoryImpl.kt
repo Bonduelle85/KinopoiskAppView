@@ -7,9 +7,12 @@ import com.example.kinopoiskappview.data.network.model.RootResponseDto
 import com.example.kinopoiskappview.domain.Repository
 import com.example.kinopoiskappview.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import kotlin.random.Random
 
-class RepositoryImpl(
+class RepositoryImpl @Inject constructor(
     private val moviesDao: MoviesDao,
     private val apiService: ApiService,
     private val mapper: Mapper

@@ -3,8 +3,9 @@ package com.example.kinopoiskappview.data
 import com.example.kinopoiskappview.data.database.MovieDbModel
 import com.example.kinopoiskappview.data.network.model.MovieDto
 import com.example.kinopoiskappview.domain.model.Movie
+import javax.inject.Inject
 
-class Mapper {
+class Mapper @Inject constructor() {
 
     fun mapDbModelToDomain(movieDbModel: MovieDbModel) = Movie(
         id = movieDbModel.id,
