@@ -2,6 +2,7 @@ package com.example.kinopoiskappview.presentation.movielist
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.kinopoiskappview.App
 import com.example.kinopoiskappview.databinding.FragmentMovieListBinding
 import com.example.kinopoiskappview.di.ViewModelFactory
+import com.example.kinopoiskappview.domain.model.Movie
 import com.example.kinopoiskappview.presentation.adapter.MovieAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -25,7 +27,7 @@ class MovieListFragment : Fragment() {
     private val binding: FragmentMovieListBinding
         get() = _binding ?: throw RuntimeException("FragmentMovieListBinding == null")
 
-    private lateinit var adapter:  MovieAdapter
+    private lateinit var adapter: MovieAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -56,6 +58,15 @@ class MovieListFragment : Fragment() {
         adapter = MovieAdapter(requireActivity())
         binding.movieListRecyclerView.adapter = adapter
         observeViewModel()
+
+        adapter.setOnReachEndListListener {
+            Log.d("MovieListFragment", "On Reached End List")
+            // viewModel.loadMovies()
+        }
+
+        adapter.setOnMovieClickListener { movie: Movie ->
+            Log.d("MovieListFragment", "Movie: ${movie.name} Clicked")
+        }
     }
 
     override fun onDestroyView() {
@@ -67,7 +78,7 @@ class MovieListFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.uiState.collectLatest {
-                   adapter.submitList(it)
+                    adapter.submitList(it)
                 }
             }
         }

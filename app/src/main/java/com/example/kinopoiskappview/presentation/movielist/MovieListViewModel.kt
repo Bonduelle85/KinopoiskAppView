@@ -17,6 +17,10 @@ class MovieListViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
+        loadMovies()
+    }
+
+    fun loadMovies() {
         viewModelScope.launch {
             loadMoviesUseCase.invoke()
         }

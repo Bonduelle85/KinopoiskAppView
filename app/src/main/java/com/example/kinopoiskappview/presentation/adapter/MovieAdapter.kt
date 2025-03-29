@@ -1,10 +1,13 @@
 package com.example.kinopoiskappview.presentation.adapter
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
+import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.MovieItemBinding
 import com.example.kinopoiskappview.domain.model.Movie
 
@@ -12,7 +15,16 @@ class MovieAdapter(
     private val context: Context
 ) : ListAdapter<Movie, MovieViewHolder>(MovieDiffCallback()) {
 
-    var onMovieClickListener: OnMovieClickListener? = null
+    private var onMovieClickListener: OnMovieClickListener? = null
+    private var onReachEndListListener: OnReachEndListListener? = null
+
+    fun setOnMovieClickListener (onMovieClickListener: OnMovieClickListener) {
+        this.onMovieClickListener = onMovieClickListener
+    }
+
+    fun setOnReachEndListListener (onReachEndListListener: OnReachEndListListener) {
+        this.onReachEndListListener = onReachEndListListener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -22,7 +34,10 @@ class MovieAdapter(
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movieItem = getItem(position)
-        holder.binding.ratingTextView.text = movieItem.kpRating.toString()
+        val kpRating = movieItem.kpRating
+        val backgroundColor = setBackgroundColor(kpRating, holder)
+        holder.binding.ratingTextView.background = backgroundColor
+        holder.binding.ratingTextView.text = kpRating.toString()
         Glide.with(context)
             .load(movieItem.posterUrl)
             .into(holder.binding.posterImageView)
@@ -30,9 +45,27 @@ class MovieAdapter(
         holder.binding.root.setOnClickListener {
             onMovieClickListener?.onMovieClick(movieItem)
         }
+
+        if (position == currentList.size - 1) {
+            onReachEndListListener?.onReachEndList()
+        }
     }
 
-    interface OnMovieClickListener {
-        fun onMovieClick(movie: Movie)
+    private fun setBackgroundColor(kpRating: Double, holder: MovieViewHolder): Drawable? {
+        val backgroundId = when {
+            kpRating > 7 -> R.drawable.rating_background_high
+            kpRating > 5 -> R.drawable.rating_background_medium
+            else -> R.drawable.rating_background_low
+        }
+        val background = ContextCompat.getDrawable(holder.itemView.context, backgroundId)
+        return background
     }
+}
+
+fun interface OnMovieClickListener {
+    fun onMovieClick(movie: Movie)
+}
+
+fun interface OnReachEndListListener {
+    fun onReachEndList()
 }

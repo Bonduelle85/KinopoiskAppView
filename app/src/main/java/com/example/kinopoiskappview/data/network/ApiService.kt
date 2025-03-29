@@ -16,6 +16,6 @@ interface ApiService {
         @Query("sortField") sortField: String = "votes.kp",
         @Query("sortType") sortType: Number = -1,
         @Query("page") page: Number = 1,
-        @Query("limit") limit: Number = 40,
+        @Query("limit") limit: Number = 20,
         ): RootResponseDto
 }

@@ -4,10 +4,19 @@ import com.example.kinopoiskappview.data.database.MovieDbModel
 import com.example.kinopoiskappview.data.network.model.MovieDto
 import com.example.kinopoiskappview.domain.model.Movie
 import javax.inject.Inject
+import kotlin.math.round
 
 class Mapper @Inject constructor() {
 
-    fun mapDbModelToDomain(movieDbModel: MovieDbModel) = Movie(
+    fun mapToMovieDbModelList(movieDtoList: List<MovieDto>) = movieDtoList.map {
+        mapMovieDtoToMovieDbModel(it)
+    }
+
+    fun mapDbModelListToDomainList(dbModelList: List<MovieDbModel>) = dbModelList.map {
+        mapDbModelToDomain(it)
+    }
+
+    private fun mapDbModelToDomain(movieDbModel: MovieDbModel) = Movie(
         id = movieDbModel.id,
         name = movieDbModel.name,
         year = movieDbModel.year,
@@ -18,22 +27,20 @@ class Mapper @Inject constructor() {
         genres = movieDbModel.genres
     )
 
-    fun mapMovieDtoToMovieDbModel(movieDto: MovieDto) = MovieDbModel(
+    private fun mapMovieDtoToMovieDbModel(movieDto: MovieDto) = MovieDbModel(
         id = movieDto.id,
         name = movieDto.name,
         year = movieDto.year,
         description = movieDto.description,
-        kpRating = movieDto.ratingDto.kp,
-        imdbRating = movieDto.ratingDto.imdb,
+        kpRating = movieDto.ratingDto.kp.round(1),
+        imdbRating = movieDto.ratingDto.imdb.round(1),
         posterUrl = movieDto.posterDto.url,
         genres = movieDto.genreDtoList.map { it.genre }
     )
 
-    fun mapToMovieDbModelList(movieDtoList: List<MovieDto>) = movieDtoList.map {
-        mapMovieDtoToMovieDbModel(it)
-    }
-
-    fun mapDbModelListToDomainList(dbModelList: List<MovieDbModel>) = dbModelList.map {
-        mapDbModelToDomain(it)
+    private fun Double.round(decimals: Int): Double {
+        var multiplier = 1.0
+        repeat(decimals) { multiplier *= 10 }
+        return round(this * multiplier) / multiplier
     }
 }
