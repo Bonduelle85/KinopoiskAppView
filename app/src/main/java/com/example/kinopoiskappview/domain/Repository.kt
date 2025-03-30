@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface Repository {
 
-    fun getMovieList(): Flow<List<Movie>>
+    suspend fun loadMovies(): Flow<List<Movie>>
 
     suspend fun insertMovieList()
 }

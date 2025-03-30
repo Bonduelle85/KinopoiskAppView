@@ -8,5 +8,5 @@ class GetMovieListUseCase @Inject constructor(
     private val repository: Repository
 ) {
 
-     operator fun invoke(): Flow<List<Movie>> = repository.getMovieList()
+//     operator fun invoke(): Flow<List<Movie>> = repository
 }

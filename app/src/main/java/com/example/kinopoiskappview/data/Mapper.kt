@@ -16,6 +16,21 @@ class Mapper @Inject constructor() {
         mapDbModelToDomain(it)
     }
 
+    fun mapDtoModelListToDomainList(dtoModelList: List<MovieDto>) = dtoModelList.map {
+        mapDtoModelToDomain(it)
+    }
+
+    private fun mapDtoModelToDomain(movieDto: MovieDto) = Movie(
+        id = movieDto.id,
+        name = movieDto.name,
+        year = movieDto.year,
+        description = movieDto.description,
+        kpRating = movieDto.ratingDto.kp.round(1),
+        imdbRating = movieDto.ratingDto.imdb.round(1),
+        posterUrl = movieDto.posterDto.url,
+        genres = movieDto.genreDtoList.map { it.genre }
+    )
+
     private fun mapDbModelToDomain(movieDbModel: MovieDbModel) = Movie(
         id = movieDbModel.id,
         name = movieDbModel.name,

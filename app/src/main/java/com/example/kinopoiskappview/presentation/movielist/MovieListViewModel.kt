@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.kinopoiskappview.domain.GetMovieListUseCase
 import com.example.kinopoiskappview.domain.LoadMoviesUseCase
 import com.example.kinopoiskappview.domain.model.Movie
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -16,20 +17,19 @@ class MovieListViewModel @Inject constructor(
     private val loadMoviesUseCase: LoadMoviesUseCase
 ) : ViewModel() {
 
+    private val _uiState = MutableStateFlow<List<Movie>>(emptyList())
+    val uiState: StateFlow<List<Movie>> = _uiState
+
     init {
         loadMovies()
     }
 
-    fun loadMovies() {
+    private fun loadMovies() {
         viewModelScope.launch {
-            loadMoviesUseCase.invoke()
+            loadMoviesUseCase.invoke().collect { movies ->
+                _uiState.value = movies
+            }
         }
     }
-
-    val uiState: StateFlow<List<Movie>> = getMovieListUseCase.invoke()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.Lazily,
-            emptyList()
-        )
 }
+
