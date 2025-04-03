@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">KinopoiskAppView</string>
     <string name="movie_picture">movie picture</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="review">review</string>
+    <string name="movie">movie</string>
+    <string name="poster_description">poster description</string>
+    <string name="reviews_button">reviews</string>
+    <string name="trailers_button">trailers</string>
 </resources>

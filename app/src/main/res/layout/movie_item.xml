@@ -39,6 +39,8 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:background="@drawable/rating_background_high"
             tools:text="8.8" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

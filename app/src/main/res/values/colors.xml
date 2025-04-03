@@ -6,4 +6,6 @@
     <color name="rating_high_background">#4CAF50</color>
     <color name="rating_medium_background">#FF9800</color>
     <color name="rating_low_background">#F44336</color>
+
+    <color name="year_color">#673AB7</color>
 </resources>

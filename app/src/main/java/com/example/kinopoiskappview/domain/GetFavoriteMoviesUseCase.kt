@@ -1,10 +1,9 @@
 package com.example.kinopoiskappview.domain
 
-import com.example.kinopoiskappview.domain.model.Movie
-import kotlinx.coroutines.flow.Flow
+
 import javax.inject.Inject
 
-class GetMovieListUseCase @Inject constructor(
+class GetFavoriteMoviesUseCase @Inject constructor(
     private val repository: Repository
 ) {
 

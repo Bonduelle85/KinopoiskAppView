@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.kinopoiskappview.App
+import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.FragmentMovieListBinding
 import com.example.kinopoiskappview.di.ViewModelFactory
 import com.example.kinopoiskappview.domain.model.Movie
@@ -60,12 +61,16 @@ class MovieListFragment : Fragment() {
         observeViewModel()
 
         adapter.setOnReachEndListListener {
-            Log.d("MovieListFragment", "On Reached End List")
-            // viewModel.loadMovies()
+            viewModel.loadMovies()
         }
 
         adapter.setOnMovieClickListener { movie: Movie ->
-            Log.d("MovieListFragment", "Movie: ${movie.name} Clicked")
+            // TODO navigation
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, MovieDetailFragment.newInstance(movie))
+                .addToBackStack(null)
+                .commit()
         }
     }
 

@@ -1,5 +1,7 @@
 package com.example.kinopoiskappview.domain.model
 
+import java.io.Serializable
+
 data class Movie(
     val id: Long,
     val name: String,
@@ -9,4 +11,4 @@ data class Movie(
     val imdbRating: Double,
     val posterUrl: String,
     val genres: List<String>,
-)
+) : Serializable
