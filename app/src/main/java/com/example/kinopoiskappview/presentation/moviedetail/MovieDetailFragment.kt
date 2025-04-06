@@ -1,15 +1,16 @@
-package com.example.kinopoiskappview.presentation.movielist
+package com.example.kinopoiskappview.presentation.moviedetail
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.FragmentMovieDetailBinding
 import com.example.kinopoiskappview.domain.model.Movie
+import com.example.kinopoiskappview.presentation.trailerlist.TrailerListFragment
 
 class MovieDetailFragment : Fragment() {
 
@@ -40,6 +41,17 @@ class MovieDetailFragment : Fragment() {
         binding.titleTextView.text = movie.name
         binding.yearTextView.text = movie.year
         binding.descriptionTextView.text = movie.description
+        binding.reviewButton.setOnClickListener {
+            // TODO navigation to review screen
+        }
+        binding.trailerButton.setOnClickListener {
+            // TODO navigation to trailer screen
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, TrailerListFragment.newInstance(movie))
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun onDestroyView() {

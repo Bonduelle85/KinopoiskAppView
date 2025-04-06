@@ -1,4 +1,4 @@
-package com.example.kinopoiskappview.presentation.adapter
+package com.example.kinopoiskappview.presentation.movielist.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kinopoiskappview.databinding.MovieItemBinding

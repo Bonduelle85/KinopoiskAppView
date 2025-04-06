@@ -2,7 +2,6 @@ package com.example.kinopoiskappview.presentation.movielist
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,8 @@ import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.FragmentMovieListBinding
 import com.example.kinopoiskappview.di.ViewModelFactory
 import com.example.kinopoiskappview.domain.model.Movie
-import com.example.kinopoiskappview.presentation.adapter.MovieAdapter
+import com.example.kinopoiskappview.presentation.movielist.adapter.MovieAdapter
+import com.example.kinopoiskappview.presentation.moviedetail.MovieDetailFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -65,7 +65,7 @@ class MovieListFragment : Fragment() {
         }
 
         adapter.setOnMovieClickListener { movie: Movie ->
-            // TODO navigation
+            // TODO navigation to movie detail screen
             requireActivity().supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragmentContainer, MovieDetailFragment.newInstance(movie))

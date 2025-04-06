@@ -2,11 +2,17 @@ package com.example.kinopoiskappview.data
 
 import com.example.kinopoiskappview.data.database.MovieDbModel
 import com.example.kinopoiskappview.data.network.model.MovieDto
+import com.example.kinopoiskappview.data.network.model.TrailerDto
 import com.example.kinopoiskappview.domain.model.Movie
+import com.example.kinopoiskappview.domain.model.Trailer
 import javax.inject.Inject
 import kotlin.math.round
 
 class Mapper @Inject constructor() {
+
+    fun mapTrailerDtoListToTrailerDomainList(trailerDtoList: List<TrailerDto>) = trailerDtoList.map {
+        mapTrailerDtoToDomain(it)
+    }
 
     fun mapToMovieDbModelList(movieDtoList: List<MovieDto>) = movieDtoList.map {
         mapMovieDtoToMovieDbModel(it)
@@ -19,6 +25,11 @@ class Mapper @Inject constructor() {
     fun mapDtoModelListToDomainList(dtoModelList: List<MovieDto>) = dtoModelList.map {
         mapDtoModelToDomain(it)
     }
+
+    private fun mapTrailerDtoToDomain(trailerDto: TrailerDto) = Trailer(
+        trailerName = trailerDto.trailerName,
+        url = trailerDto.url
+    )
 
     private fun mapDtoModelToDomain(movieDto: MovieDto) = Movie(
         id = movieDto.id,

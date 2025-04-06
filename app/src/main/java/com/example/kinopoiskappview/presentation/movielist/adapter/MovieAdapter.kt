@@ -1,15 +1,17 @@
-package com.example.kinopoiskappview.presentation.adapter
+package com.example.kinopoiskappview.presentation.movielist.adapter
 
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.TouchDelegateInfoCompat
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.MovieItemBinding
 import com.example.kinopoiskappview.domain.model.Movie
+import com.example.kinopoiskappview.presentation.trailerlist.adapter.TrailerDiffCallback
 
 class MovieAdapter(
     private val context: Context

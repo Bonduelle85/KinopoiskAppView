@@ -19,6 +19,8 @@ interface ApplicationComponent {
     fun inject(fragment: MovieListFragment)
     fun inject(application: App)
 
+    fun trailerListComponentComponentFactory(): TrailerListComponent.Factory
+
     @Component.Factory
     interface Factory {
 
