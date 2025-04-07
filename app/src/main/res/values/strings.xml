@@ -6,5 +6,5 @@
     <string name="poster_description">poster description</string>
     <string name="reviews_button">reviews</string>
     <string name="trailers_button">trailers</string>
-    <string name="trailers">Trailers</string>
+    <string name="trailers">Trailers for the movie %1$s</string>
 </resources>

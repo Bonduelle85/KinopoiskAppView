@@ -1,8 +1,9 @@
 package com.example.kinopoiskappview.presentation.trailerlist
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +14,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.kinopoiskappview.App
+import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.FragmentTrailersListBinding
 import com.example.kinopoiskappview.di.ViewModelFactory
 import com.example.kinopoiskappview.domain.model.Movie
 import com.example.kinopoiskappview.presentation.trailerlist.adapter.TrailerAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import retrofit2.http.Url
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 
 class TrailerListFragment : Fragment() {
@@ -62,7 +66,17 @@ class TrailerListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         adapter = TrailerAdapter(requireActivity())
         binding.trailerListRecyclerView.adapter = adapter
+
+        adapter.setOnTrailerClickListener {trailer ->
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setData(trailer.url.toUri())
+            startActivity(intent)
+        }
+
+        val formattedTittle = getString(R.string.trailers, movie.name)
+        binding.titleTextView.text = formattedTittle
         viewModel.loadTrailers()
+
         observeViewModel()
     }
 

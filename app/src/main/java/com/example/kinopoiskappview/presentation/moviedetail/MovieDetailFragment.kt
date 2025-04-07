@@ -41,6 +41,7 @@ class MovieDetailFragment : Fragment() {
         binding.titleTextView.text = movie.name
         binding.yearTextView.text = movie.year
         binding.descriptionTextView.text = movie.description
+
         binding.reviewButton.setOnClickListener {
             // TODO navigation to review screen
         }
