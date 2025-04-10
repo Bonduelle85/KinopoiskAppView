@@ -8,7 +8,6 @@ data class Movie(
     val year: String,
     val description: String,
     val kpRating: Double,
-    val imdbRating: Double,
     val posterUrl: String,
     val genres: List<String>,
 ) : Serializable

@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.kinopoiskappview.data.database.model.MovieDbModel
 
 @Database(entities = [MovieDbModel::class,], version = 1, exportSchema = false,)
 @TypeConverters(TypeConverter::class)
@@ -29,15 +30,15 @@ abstract class AppDatabase : RoomDatabase() {
                     return it
                 }
 
-                val db = Room.databaseBuilder(
+                val database = Room.databaseBuilder(
                     context,
                     AppDatabase::class.java,
                     AppDatabase::class.java.simpleName,
                 ).build()
 
-                INSTANCE = db
+                INSTANCE = database
 
-                return db
+                return database
             }
         }
     }

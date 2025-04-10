@@ -42,6 +42,7 @@ class MovieDetailFragment : Fragment() {
         binding.titleTextView.text = movie.name
         binding.yearTextView.text = movie.year
         binding.descriptionTextView.text = movie.description
+        binding.genresTextView.text = movie.genres.joinToString(SPACE)
 
         binding.reviewButton.setOnClickListener {
             // TODO navigation to review screen
@@ -76,6 +77,7 @@ class MovieDetailFragment : Fragment() {
     companion object {
 
         private const val MOVIE_PARAM = "MOVIE_PARAM"
+        private const val SPACE = " "
 
         @JvmStatic
         fun newInstance(movie: Movie) =

@@ -49,7 +49,6 @@ class Mapper @Inject constructor() {
         year = movieDto.year,
         description = movieDto.description,
         kpRating = movieDto.ratingDto.kp.round(1),
-        imdbRating = movieDto.ratingDto.imdb.round(1),
         posterUrl = movieDto.posterDto.url,
         genres = movieDto.genreDtoList.map { it.genre }
     )
@@ -60,7 +59,6 @@ class Mapper @Inject constructor() {
         year = movieDbModel.year,
         description = movieDbModel.description,
         kpRating = movieDbModel.kpRating,
-        imdbRating = movieDbModel.imdbRating,
         posterUrl = movieDbModel.posterUrl,
         genres = movieDbModel.genres
     )
@@ -71,7 +69,6 @@ class Mapper @Inject constructor() {
         year = movieDto.year,
         description = movieDto.description,
         kpRating = movieDto.ratingDto.kp.round(1),
-        imdbRating = movieDto.ratingDto.imdb.round(1),
         posterUrl = movieDto.posterDto.url,
         genres = movieDto.genreDtoList.map { it.genre }
     )
