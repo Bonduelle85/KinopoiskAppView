@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">KinopoiskAppView</string>
+
     <string name="movie_picture">movie picture</string>
     <string name="review">review</string>
     <string name="movie">movie</string>
     <string name="poster_description">poster description</string>
     <string name="reviews_button">reviews</string>
     <string name="trailers_button">trailers</string>
-    <string name="trailers">Trailers for the movie %1$s</string>
+
+    <string name="trailers_list_title">Trailers for the movie %1$s</string>
+
+    <string name="review_list_title">Reviews for the movie %1$s</string>
+    <string name="review_likes">Likes: %1$s</string>
+    <string name="review_dislikes">Dislikes: %1$s</string>
 </resources>

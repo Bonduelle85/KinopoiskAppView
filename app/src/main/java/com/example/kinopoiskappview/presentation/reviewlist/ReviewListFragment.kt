@@ -1,6 +1,5 @@
-package com.example.kinopoiskappview.presentation.trailerlist
+package com.example.kinopoiskappview.presentation.reviewlist
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,23 +13,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.kinopoiskappview.App
 import com.example.kinopoiskappview.R
+import com.example.kinopoiskappview.databinding.FragmentReviewListBinding
 import com.example.kinopoiskappview.di.ViewModelFactory
 import com.example.kinopoiskappview.domain.model.Movie
-import com.example.kinopoiskappview.presentation.trailerlist.adapter.TrailerAdapter
+import com.example.kinopoiskappview.presentation.reviewlist.adapter.ReviewAdapter
+import com.example.kinopoiskappview.presentation.reviewlist.adapter.ReviewItemDecoration
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import androidx.core.net.toUri
-import com.example.kinopoiskappview.databinding.FragmentTrailerListBinding
 
 
-class TrailerListFragment : Fragment() {
+class ReviewListFragment : Fragment() {
 
-    private var _binding: FragmentTrailerListBinding? = null
-    private val binding: FragmentTrailerListBinding
-        get() = _binding ?: throw RuntimeException("FragmentTrailerListBinding == null")
+    private var _binding: FragmentReviewListBinding? = null
+    private val binding: FragmentReviewListBinding
+        get() = _binding ?: throw RuntimeException("FragmentReviewListBinding == null")
 
-    private lateinit var adapter: TrailerAdapter
+    private lateinit var adapter: ReviewAdapter
     private lateinit var movie: Movie
 
     @Inject
@@ -38,12 +37,12 @@ class TrailerListFragment : Fragment() {
 
     private val component by lazy {
         (requireActivity().application as App).component
-            .trailerListComponentComponentFactory()
+            .reviewListComponentComponentFactory()
             .create(movie)
     }
 
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[TrailerListViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[ReviewListViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,24 +55,20 @@ class TrailerListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTrailerListBinding.inflate(inflater, container, false)
+        _binding = FragmentReviewListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = TrailerAdapter()
-        binding.trailerListRecyclerView.adapter = adapter
+        adapter = ReviewAdapter()
+        val recyclerView = binding.reviewListRecyclerView
+        recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(ReviewItemDecoration(16, 32, 32, 16))
 
-        adapter.setOnTrailerClickListener {trailer ->
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.setData(trailer.url.toUri())
-            startActivity(intent)
-        }
+        binding.titleTextView.text = getString(R.string.review_list_title, movie.name)
 
-        val formattedTittle = getString(R.string.trailers_list_title, movie.name)
-        binding.titleTextView.text = formattedTittle
-        viewModel.loadTrailers()
+        viewModel.loadReviews()
 
         observeViewModel()
     }
@@ -106,7 +101,7 @@ class TrailerListFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(movie: Movie): Fragment {
-            return TrailerListFragment().apply {
+            return ReviewListFragment().apply {
                 arguments = bundleOf(MOVIE_PARAM to movie)
             }
         }

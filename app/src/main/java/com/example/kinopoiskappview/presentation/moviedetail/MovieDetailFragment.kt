@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.FragmentMovieDetailBinding
 import com.example.kinopoiskappview.domain.model.Movie
+import com.example.kinopoiskappview.presentation.reviewlist.ReviewListFragment
 import com.example.kinopoiskappview.presentation.trailerlist.TrailerListFragment
 
 class MovieDetailFragment : Fragment() {
@@ -44,6 +45,11 @@ class MovieDetailFragment : Fragment() {
 
         binding.reviewButton.setOnClickListener {
             // TODO navigation to review screen
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, ReviewListFragment.newInstance(movie))
+                .addToBackStack(null)
+                .commit()
         }
         binding.trailerButton.setOnClickListener {
             // TODO navigation to trailer screen

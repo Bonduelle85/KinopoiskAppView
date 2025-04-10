@@ -20,6 +20,7 @@ interface ApplicationComponent {
     fun inject(application: App)
 
     fun trailerListComponentComponentFactory(): TrailerListComponent.Factory
+    fun reviewListComponentComponentFactory(): ReviewListComponent.Factory
 
     @Component.Factory
     interface Factory {
