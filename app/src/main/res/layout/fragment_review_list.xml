@@ -43,19 +43,46 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
-    <TextView
-        android:id="@+id/errorTextView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/errorLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="18dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:visibility="gone"
+        android:background="@drawable/error_background"
+        android:orientation="vertical"
+        android:layout_margin="32dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Error"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="18dp"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@string/error"
+            tools:visibility="visible" />
+        <TextView
+            android:id="@+id/errorTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="18dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="Some error has occurred"
+            tools:visibility="visible" />
+        <Button
+            android:id="@+id/tryAgainButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/try_again"/>
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,4 +13,6 @@
     <string name="review_list_title">Reviews for the movie %1$s</string>
     <string name="review_likes">Likes: %1$s</string>
     <string name="review_dislikes">Dislikes: %1$s</string>
+    <string name="error">Error</string>
+    <string name="try_again">Try Again</string>
 </resources>

@@ -10,7 +10,7 @@ import com.example.kinopoiskappview.data.ReviewType
 import com.example.kinopoiskappview.databinding.ReviewItemBinding
 import com.example.kinopoiskappview.domain.model.Review
 
-class ReviewAdapter : ListAdapter<Review, ReviewViewHolder>(ReviewDiffCallback()) {
+class ReviewAdapter : ListAdapter<Review, ReviewViewHolder>(ReviewDiffCallback()), UpdateReviewList {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -43,4 +43,10 @@ class ReviewAdapter : ListAdapter<Review, ReviewViewHolder>(ReviewDiffCallback()
             ReviewType.NEUTRAL -> R.color.review_neutral_color
         }
     )
+
+    override fun update(list: List<Review>) = submitList(list)
+}
+
+interface UpdateReviewList {
+    fun update(list: List<Review>)
 }

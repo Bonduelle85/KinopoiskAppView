@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.kinopoiskappview.di.MovieQualifier
 import com.example.kinopoiskappview.domain.LoadReviewsUseCase
 import com.example.kinopoiskappview.domain.model.Movie
-import com.example.kinopoiskappview.domain.model.Review
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -16,12 +15,12 @@ class ReviewListViewModel @Inject constructor(
     @MovieQualifier private val movie: Movie
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<List<Review>>(emptyList())
-    val uiState: StateFlow<List<Review>> = _uiState
+    private val _uiState = MutableStateFlow<ReviewsUiState>(ReviewsUiState.Loading)
+    val uiState: StateFlow<ReviewsUiState> = _uiState
 
     fun loadReviews() {
         viewModelScope.launch {
-            loadReviewsUseCase.invoke(movie.id).collect { reviews ->
+            loadReviewsUseCase.invoke(movie.id).collect { reviews: ReviewsUiState ->
                 _uiState.value = reviews
             }
         }

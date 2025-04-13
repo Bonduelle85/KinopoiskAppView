@@ -67,6 +67,9 @@ class ReviewListFragment : Fragment() {
         recyclerView.addItemDecoration(ReviewItemDecoration(16, 32, 32, 16))
 
         binding.titleTextView.text = getString(R.string.review_list_title, movie.name)
+        binding.tryAgainButton.setOnClickListener {
+            viewModel.loadReviews()
+        }
 
         viewModel.loadReviews()
 
@@ -81,8 +84,9 @@ class ReviewListFragment : Fragment() {
     private fun observeViewModel() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.uiState.collectLatest {
-                    adapter.submitList(it)
+                viewModel.uiState.collectLatest {uiState ->
+                    uiState.show(binding)
+                    uiState.showList(adapter)
                 }
             }
         }
