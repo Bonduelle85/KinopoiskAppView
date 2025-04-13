@@ -12,23 +12,7 @@ import kotlin.math.round
 
 class Mapper @Inject constructor() {
 
-    fun mapTrailerDtoListToTrailerDomainList(trailerDtoList: List<TrailerDto>) = trailerDtoList.map {
-        mapTrailerDtoToDomain(it)
-    }
-
-    fun mapToMovieDbModelList(movieDtoList: List<MovieDto>) = movieDtoList.map {
-        mapMovieDtoToMovieDbModel(it)
-    }
-
-    fun mapDbModelListToDomainList(dbModelList: List<MovieDbModel>) = dbModelList.map {
-        mapDbModelToDomain(it)
-    }
-
-    fun mapDtoModelListToDomainList(dtoModelList: List<MovieDto>) = dtoModelList.map {
-        mapDtoModelToDomain(it)
-    }
-
-    private fun mapTrailerDtoToDomain(trailerDto: TrailerDto) = Trailer(
+    fun mapDtoToDomain(trailerDto: TrailerDto) = Trailer(
         trailerName = trailerDto.trailerName,
         url = trailerDto.url
     )
@@ -43,7 +27,7 @@ class Mapper @Inject constructor() {
         createdAt = reviewDto.createdAt.substringDate()
     )
 
-    private fun mapDtoModelToDomain(movieDto: MovieDto) = Movie(
+    fun mapDtoToDomain(movieDto: MovieDto) = Movie(
         id = movieDto.id,
         name = movieDto.name,
         year = movieDto.year,
@@ -53,7 +37,7 @@ class Mapper @Inject constructor() {
         genres = movieDto.genreDtoList.map { it.genre }
     )
 
-    private fun mapDbModelToDomain(movieDbModel: MovieDbModel) = Movie(
+    fun mapDbToDomain(movieDbModel: MovieDbModel) = Movie(
         id = movieDbModel.id,
         name = movieDbModel.name,
         year = movieDbModel.year,
@@ -63,7 +47,7 @@ class Mapper @Inject constructor() {
         genres = movieDbModel.genres
     )
 
-    private fun mapMovieDtoToMovieDbModel(movieDto: MovieDto) = MovieDbModel(
+     fun mapDtoToDb(movieDto: MovieDto) = MovieDbModel(
         id = movieDto.id,
         name = movieDto.name,
         year = movieDto.year,

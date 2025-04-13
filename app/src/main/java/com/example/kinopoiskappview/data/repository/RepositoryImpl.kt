@@ -24,15 +24,14 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun loadMovies(): Flow<List<Movie>> = flow {
         val moviesResponse = apiService.loadMovies(page++)
-        val movies = mapper.mapDtoModelListToDomainList(moviesResponse.movies)
+        val movies = moviesResponse.movies.map { mapper.mapDtoToDomain(it) }
         cachedMovies.addAll(movies)
         emit(cachedMovies.toList())
     }.flowOn(Dispatchers.IO)
 
     override suspend fun loadTrailers(id: Long): Flow<List<Trailer>> = flow {
         val trailersResponse = apiService.loadTrailers(id)
-        val trailers =
-            mapper.mapTrailerDtoListToTrailerDomainList(trailersResponse.videosDto.trailerDtos)
+        val trailers = trailersResponse.videosDto.trailerDtos.map { mapper.mapDtoToDomain(it) }
         emit(trailers)
     }.flowOn(Dispatchers.IO)
 
@@ -41,4 +40,11 @@ class RepositoryImpl @Inject constructor(
         val reviews = reviewResponse.map { mapper.mapDtoToDomain(it) }
         emit(reviews)
     }.flowOn(Dispatchers.IO)
+
+}
+
+sealed class Result<out T> {
+    data class Success<out T>(val data: T) : Result<T>()  // Успешный результат с данными
+    data class Error(val exception: Exception) : Result<Nothing>()  // Ошибка с исключением
+    object Loading : Result<Nothing>()  // Состояние загрузки (не требует данных)
 }
