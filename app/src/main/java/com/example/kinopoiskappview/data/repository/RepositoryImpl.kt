@@ -4,8 +4,8 @@ import com.example.kinopoiskappview.data.Mapper
 import com.example.kinopoiskappview.data.network.ApiService
 import com.example.kinopoiskappview.domain.Repository
 import com.example.kinopoiskappview.domain.model.Movie
+import com.example.kinopoiskappview.domain.model.Review
 import com.example.kinopoiskappview.domain.model.Trailer
-import com.example.kinopoiskappview.presentation.reviewlist.ReviewsUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -34,15 +34,13 @@ class RepositoryImpl @Inject constructor(
         emit(trailers)
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun loadReviews(id: Long): Flow<ReviewsUiState> = flow {
-        emit(ReviewsUiState.Loading)
-        delay(300)
+    override suspend fun loadReviews(id: Long): Flow<Result> = flow {
         try {
             val reviewResponse = apiService.loadReviews(id).reviews
             val reviews = reviewResponse.map { mapper.mapDtoToDomain(it) }
-            emit(ReviewsUiState.Reviews(reviews))
+            emit(Result.Success(reviews))
         } catch (e: Exception) {
-            emit(ReviewsUiState.Error(e))
+            emit(Result.Error(e))
         }
     }.flowOn(Dispatchers.IO)
 }
