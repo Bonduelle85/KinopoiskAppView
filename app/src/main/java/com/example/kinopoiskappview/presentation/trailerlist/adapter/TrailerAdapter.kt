@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.kinopoiskappview.databinding.TrailerItemBinding
+import com.example.kinopoiskappview.domain.model.Review
 import com.example.kinopoiskappview.domain.model.Trailer
 
-class TrailerAdapter : ListAdapter<Trailer, TrailerViewHolder>(TrailerDiffCallback()) {
+class TrailerAdapter : ListAdapter<Trailer, TrailerViewHolder>(TrailerDiffCallback()), UpdateTrailerList {
     private var onTrailerClickListener: OnTrailerClickListener? = null
 
     fun setOnTrailerClickListener(onTrailerClickListener: OnTrailerClickListener) {
@@ -26,8 +27,14 @@ class TrailerAdapter : ListAdapter<Trailer, TrailerViewHolder>(TrailerDiffCallba
             onTrailerClickListener?.onTrailerClick(trailerItem)
         }
     }
+
+    override fun update(list: List<Trailer>) = submitList(list)
 }
 
 fun interface OnTrailerClickListener {
     fun onTrailerClick(trailer: Trailer)
+}
+
+interface UpdateTrailerList {
+    fun update(list: List<Trailer>)
 }

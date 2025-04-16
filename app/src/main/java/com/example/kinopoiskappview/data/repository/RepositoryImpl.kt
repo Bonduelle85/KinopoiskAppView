@@ -4,6 +4,7 @@ import com.example.kinopoiskappview.data.Mapper
 import com.example.kinopoiskappview.data.network.ApiService
 import com.example.kinopoiskappview.domain.Repository
 import com.example.kinopoiskappview.domain.model.Movie
+import com.example.kinopoiskappview.domain.model.Result
 import com.example.kinopoiskappview.domain.model.Review
 import com.example.kinopoiskappview.domain.model.Trailer
 import kotlinx.coroutines.Dispatchers
@@ -28,13 +29,21 @@ class RepositoryImpl @Inject constructor(
         emit(cachedMovies.toList())
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun loadTrailers(id: Long): Flow<List<Trailer>> = flow {
-        val trailersResponse = apiService.loadTrailers(id)
-        val trailers = trailersResponse.videosDto.trailerDtos.map { mapper.mapDtoToDomain(it) }
-        emit(trailers)
+    override suspend fun loadTrailers(id: Long): Flow<Result<List<Trailer>>> = flow {
+        emit(Result.Loading)
+        delay(300)
+        try {
+            val trailersResponse = apiService.loadTrailers(id)
+            val trailers = trailersResponse.videosDto.trailerDtos.map { mapper.mapDtoToDomain(it) }
+            emit(Result.Success(trailers))
+        } catch (e: Exception) {
+            emit(Result.Error(e))
+        }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun loadReviews(id: Long): Flow<Result> = flow {
+    override suspend fun loadReviews(id: Long): Flow<Result<List<Review>>> = flow {
+        emit(Result.Loading)
+        delay(300)
         try {
             val reviewResponse = apiService.loadReviews(id).reviews
             val reviews = reviewResponse.map { mapper.mapDtoToDomain(it) }

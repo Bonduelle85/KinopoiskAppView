@@ -73,6 +73,10 @@ class TrailerListFragment : Fragment() {
 
         val formattedTittle = getString(R.string.trailers_list_title, movie.name)
         binding.titleTextView.text = formattedTittle
+        binding.tryAgainButton.setOnClickListener {
+            viewModel.loadTrailers()
+        }
+
         viewModel.loadTrailers()
 
         observeViewModel()
@@ -87,7 +91,8 @@ class TrailerListFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.uiState.collectLatest {
-                    adapter.submitList(it)
+                    it.show(binding)
+                    it.showList(adapter)
                 }
             }
         }
