@@ -64,6 +64,9 @@ dependencies {
     ksp(libs.dagger2.compiler)
     ksp(libs.dagger2.android.processor)
 
+    // glide
+    implementation (libs.glide)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
