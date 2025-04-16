@@ -29,10 +29,16 @@ class RepositoryImpl @Inject constructor(
         emit(cachedMovies.toList())
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun loadTrailers(id: Long): Flow<List<Trailer>> = flow {
-        val trailersResponse = apiService.loadTrailers(id)
-        val trailers = trailersResponse.videosDto.trailerDtos.map { mapper.mapDtoToDomain(it) }
-        emit(trailers)
+    override suspend fun loadTrailers(id: Long): Flow<Result<List<Trailer>>> = flow {
+        emit(Result.Loading)
+        delay(300)
+        try {
+            val trailersResponse = apiService.loadTrailers(id)
+            val trailers = trailersResponse.videosDto.trailerDtos.map { mapper.mapDtoToDomain(it) }
+            emit(Result.Success(trailers))
+        } catch (e: Exception) {
+            emit(Result.Error(e))
+        }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun loadReviews(id: Long): Flow<Result<List<Review>>> = flow {
