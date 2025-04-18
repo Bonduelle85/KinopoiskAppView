@@ -22,11 +22,16 @@ class RepositoryImpl @Inject constructor(
     private var page = 1
     private val cachedMovies = mutableListOf<Movie>()
 
-    override suspend fun loadMovies(): Flow<List<Movie>> = flow {
-        val moviesResponse = apiService.loadMovies(page++)
-        val movies = moviesResponse.movies.map { mapper.mapDtoToDomain(it) }
-        cachedMovies.addAll(movies)
-        emit(cachedMovies.toList())
+    override suspend fun loadMovies(): Flow<Result<List<Movie>>> = flow {
+        emit(Result.Loading)
+        try {
+            val moviesResponse = apiService.loadMovies(page++)
+            val movies = moviesResponse.movies.map { mapper.mapDtoToDomain(it) }
+            cachedMovies.addAll(movies)
+            emit(Result.Success(cachedMovies.toList()))
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun loadTrailers(id: Long): Flow<Result<List<Trailer>>> = flow {

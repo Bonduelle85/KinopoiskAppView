@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface Repository {
 
-    suspend fun loadMovies(): Flow<List<Movie>>
+    suspend fun loadMovies(): Flow<Result<List<Movie>>>
     suspend fun loadTrailers(id: Long): Flow<Result<List<Trailer>>>
     suspend fun loadReviews(id: Long): Flow<Result<List<Review>>>
 }

@@ -11,11 +11,12 @@ import com.bumptech.glide.Glide
 import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.MovieItemBinding
 import com.example.kinopoiskappview.domain.model.Movie
+import com.example.kinopoiskappview.domain.model.Trailer
 import com.example.kinopoiskappview.presentation.trailerlist.adapter.TrailerDiffCallback
 
 class MovieAdapter(
     private val context: Context
-) : ListAdapter<Movie, MovieViewHolder>(MovieDiffCallback()) {
+) : ListAdapter<Movie, MovieViewHolder>(MovieDiffCallback()), UpdateMovieList {
 
     private var onMovieClickListener: OnMovieClickListener? = null
     private var onReachEndListListener: OnReachEndListListener? = null
@@ -62,6 +63,8 @@ class MovieAdapter(
         val background = ContextCompat.getDrawable(holder.itemView.context, backgroundId)
         return background
     }
+
+    override fun update(list: List<Movie>) = submitList(list)
 }
 
 fun interface OnMovieClickListener {
@@ -70,4 +73,8 @@ fun interface OnMovieClickListener {
 
 fun interface OnReachEndListListener {
     fun onReachEndList()
+}
+
+interface UpdateMovieList {
+    fun update(list: List<Movie>)
 }

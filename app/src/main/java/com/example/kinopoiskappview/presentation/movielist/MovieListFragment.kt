@@ -83,7 +83,8 @@ class MovieListFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.uiState.collectLatest {
-                    adapter.submitList(it)
+                    it.showList(adapter)
+                    it.show(binding)
                 }
             }
         }
