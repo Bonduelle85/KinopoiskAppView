@@ -25,12 +25,13 @@ class RepositoryImpl @Inject constructor(
     override suspend fun loadMovies(): Flow<Result<List<Movie>>> = flow {
         emit(Result.Loading)
         try {
-            val moviesResponse = apiService.loadMovies(page++)
+            val moviesResponse = apiService.loadMovies(page)
             val movies = moviesResponse.movies.map { mapper.mapDtoToDomain(it) }
             cachedMovies.addAll(movies)
             emit(Result.Success(cachedMovies.toList()))
+            page++
         } catch (e: Exception) {
-            Result.Error(e)
+            emit(Result.Error(e))
         }
     }.flowOn(Dispatchers.IO)
 
