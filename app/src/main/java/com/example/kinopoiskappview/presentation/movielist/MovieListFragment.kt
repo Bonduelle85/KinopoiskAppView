@@ -64,6 +64,10 @@ class MovieListFragment : Fragment() {
             viewModel.loadMovies()
         }
 
+        binding.tryAgainButton.setOnClickListener {
+            viewModel.loadMovies()
+        }
+
         adapter.setOnMovieClickListener { movie: Movie ->
             // TODO navigation to movie detail screen
             requireActivity().supportFragmentManager

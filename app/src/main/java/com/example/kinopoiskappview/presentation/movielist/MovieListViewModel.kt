@@ -22,8 +22,8 @@ class MovieListViewModel @Inject constructor(
 
     fun loadMovies() {
         viewModelScope.launch {
-            loadMoviesUseCase.invoke().collect { movies ->
-                _uiState.value = movies.toUiState {
+            loadMoviesUseCase.invoke().collect { result ->
+                _uiState.value = result.toUiState {
                     MoviesUiState.Movies(it)
                 }
             }
