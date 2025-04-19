@@ -67,7 +67,7 @@ class ReviewListFragment : Fragment() {
         recyclerView.addItemDecoration(ReviewItemDecoration(16, 32, 32, 16))
 
         binding.titleTextView.text = getString(R.string.review_list_title, movie.name)
-        binding.tryAgainButton.setOnClickListener {
+        binding.errorInclude.tryAgainButton.setOnClickListener {
             viewModel.loadReviews()
         }
 

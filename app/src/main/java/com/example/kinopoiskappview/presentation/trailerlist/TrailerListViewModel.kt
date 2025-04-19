@@ -38,6 +38,6 @@ class TrailerListViewModel @Inject constructor(
     ): TrailersUiState = when (this) {
         is Result.Loading -> TrailersUiState.Loading
         is Result.Success -> successTransform(data)
-        is Result.Error -> TrailersUiState.Error(exception)
+        is Result.Error -> TrailersUiState.Error(message)
     }
 }

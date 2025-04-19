@@ -34,6 +34,6 @@ class ReviewListViewModel @Inject constructor(
     ): ReviewsUiState = when (this) {
         is Result.Loading -> ReviewsUiState.Loading
         is Result.Success -> successTransform(data)
-        is Result.Error -> ReviewsUiState.Error(exception)
+        is Result.Error -> ReviewsUiState.Error(message)
     }
 }

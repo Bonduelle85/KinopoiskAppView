@@ -14,20 +14,20 @@ sealed interface MoviesUiState {
 
         override fun show(binding: FragmentMovieListBinding) {
             binding.progressBar.visibility = View.VISIBLE
-            binding.errorLayout.visibility = View.GONE
+            binding.errorInclude.errorLayout.visibility = View.GONE
         }
 
         override fun showList(updateMovieList: UpdateMovieList) = Unit
     }
 
     class Error(
-        private val exception: Exception,
+        private val message: String,
     ) : MoviesUiState {
 
         override fun show(binding: FragmentMovieListBinding) {
             binding.progressBar.visibility = View.INVISIBLE
-            binding.errorTextView.text = exception.message
-            binding.errorLayout.visibility = View.VISIBLE
+            binding.errorInclude.errorTextView.text = message
+            binding.errorInclude.errorLayout.visibility = View.VISIBLE
         }
 
         override fun showList(updateMovieList: UpdateMovieList) = Unit
@@ -39,7 +39,7 @@ sealed interface MoviesUiState {
 
         override fun show(binding: FragmentMovieListBinding) {
             binding.progressBar.visibility = View.INVISIBLE
-            binding.errorLayout.visibility = View.GONE
+            binding.errorInclude.errorLayout.visibility = View.GONE
         }
 
         override fun showList(updateMovieList: UpdateMovieList) {

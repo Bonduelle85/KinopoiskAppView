@@ -2,10 +2,10 @@ package com.example.kinopoiskappview.presentation.movielist
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -15,8 +15,8 @@ import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.FragmentMovieListBinding
 import com.example.kinopoiskappview.di.ViewModelFactory
 import com.example.kinopoiskappview.domain.model.Movie
-import com.example.kinopoiskappview.presentation.movielist.adapter.MovieAdapter
 import com.example.kinopoiskappview.presentation.moviedetail.MovieDetailFragment
+import com.example.kinopoiskappview.presentation.movielist.adapter.MovieAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -64,7 +64,7 @@ class MovieListFragment : Fragment() {
             viewModel.loadMovies()
         }
 
-        binding.tryAgainButton.setOnClickListener {
+        binding.errorInclude.tryAgainButton.setOnClickListener {
             viewModel.loadMovies()
         }
 
