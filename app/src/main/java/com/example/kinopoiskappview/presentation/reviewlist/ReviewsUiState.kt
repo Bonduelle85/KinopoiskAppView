@@ -14,7 +14,7 @@ sealed interface ReviewsUiState {
 
         override fun show(binding: FragmentReviewListBinding) {
             binding.progressBar.visibility = View.VISIBLE
-            binding.errorLayout.visibility = View.GONE
+            binding.errorInclude.errorLayout.visibility = View.GONE
         }
 
         override fun showList(updateReviewList: UpdateReviewList) = Unit
@@ -26,8 +26,8 @@ sealed interface ReviewsUiState {
 
         override fun show(binding: FragmentReviewListBinding) {
             binding.progressBar.visibility = View.INVISIBLE
-            binding.errorTextView.text = exception.message
-            binding.errorLayout.visibility = View.VISIBLE
+            binding.errorInclude.errorTextView.text = exception.message
+            binding.errorInclude.errorLayout.visibility = View.VISIBLE
         }
 
         override fun showList(updateReviewList: UpdateReviewList) = Unit
@@ -39,7 +39,7 @@ sealed interface ReviewsUiState {
 
         override fun show(binding: FragmentReviewListBinding) {
             binding.progressBar.visibility = View.INVISIBLE
-            binding.errorLayout.visibility = View.GONE
+            binding.errorInclude.errorLayout.visibility = View.GONE
         }
         override fun showList(updateReviewList: UpdateReviewList) {
             updateReviewList.update(list)

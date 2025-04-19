@@ -24,6 +24,7 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun loadMovies(): Flow<Result<List<Movie>>> = flow {
         emit(Result.Loading)
+        delay(200)
         try {
             val moviesResponse = apiService.loadMovies(page)
             val movies = moviesResponse.movies.map { mapper.mapDtoToDomain(it) }
@@ -37,7 +38,7 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun loadTrailers(id: Long): Flow<Result<List<Trailer>>> = flow {
         emit(Result.Loading)
-        delay(300)
+        delay(200)
         try {
             val trailersResponse = apiService.loadTrailers(id)
             val trailers = trailersResponse.videosDto.trailerDtos.map { mapper.mapDtoToDomain(it) }
@@ -49,7 +50,7 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun loadReviews(id: Long): Flow<Result<List<Review>>> = flow {
         emit(Result.Loading)
-        delay(300)
+        delay(200)
         try {
             val reviewResponse = apiService.loadReviews(id).reviews
             val reviews = reviewResponse.map { mapper.mapDtoToDomain(it) }

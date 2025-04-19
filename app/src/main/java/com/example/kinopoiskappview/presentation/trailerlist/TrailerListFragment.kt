@@ -73,7 +73,7 @@ class TrailerListFragment : Fragment() {
 
         val formattedTittle = getString(R.string.trailers_list_title, movie.name)
         binding.titleTextView.text = formattedTittle
-        binding.tryAgainButton.setOnClickListener {
+        binding.errorInclude.tryAgainButton.setOnClickListener {
             viewModel.loadTrailers()
         }
 
