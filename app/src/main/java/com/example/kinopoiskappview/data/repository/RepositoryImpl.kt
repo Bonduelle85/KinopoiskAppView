@@ -12,6 +12,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.io.IOException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -32,7 +35,7 @@ class RepositoryImpl @Inject constructor(
             emit(Result.Success(cachedMovies.toList()))
             page++
         } catch (e: Exception) {
-            emit(Result.Error(e))
+            emit(Result.Error(classifyError(e)))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -44,7 +47,7 @@ class RepositoryImpl @Inject constructor(
             val trailers = trailersResponse.videosDto.trailerDtos.map { mapper.mapDtoToDomain(it) }
             emit(Result.Success(trailers))
         } catch (e: Exception) {
-            emit(Result.Error(e))
+            emit(Result.Error(classifyError(e)))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -56,7 +59,14 @@ class RepositoryImpl @Inject constructor(
             val reviews = reviewResponse.map { mapper.mapDtoToDomain(it) }
             emit(Result.Success(reviews))
         } catch (e: Exception) {
-            emit(Result.Error(e))
+            emit(Result.Error(classifyError(e)))
         }
     }.flowOn(Dispatchers.IO)
+
+    private fun classifyError(e: Exception): String = when (e) {
+        is SocketTimeoutException -> "Connection timeout"
+        is UnknownHostException -> "No internet connection"
+        is IOException -> "Network error"
+        else -> "Unknown error: ${e.message}"
+    }
 }

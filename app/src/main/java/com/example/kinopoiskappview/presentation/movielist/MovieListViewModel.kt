@@ -35,7 +35,7 @@ class MovieListViewModel @Inject constructor(
     ): MoviesUiState = when (this) {
         is Result.Loading -> MoviesUiState.Loading
         is Result.Success -> successTransform(data)
-        is Result.Error -> MoviesUiState.Error(exception)
+        is Result.Error -> MoviesUiState.Error(message)
     }
 }
 

@@ -21,12 +21,12 @@ sealed interface ReviewsUiState {
     }
 
     class Error(
-        private val exception: Exception,
+        private val message: String,
     ) : ReviewsUiState {
 
         override fun show(binding: FragmentReviewListBinding) {
             binding.progressBar.visibility = View.INVISIBLE
-            binding.errorInclude.errorTextView.text = exception.message
+            binding.errorInclude.errorTextView.text = message
             binding.errorInclude.errorLayout.visibility = View.VISIBLE
         }
 

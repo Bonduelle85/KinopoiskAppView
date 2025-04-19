@@ -21,12 +21,12 @@ sealed interface TrailersUiState {
     }
 
     class Error(
-        private val exception: Exception,
+        private val message: String,
     ) : TrailersUiState {
 
         override fun show(binding: FragmentTrailerListBinding) {
             binding.progressBar.visibility = View.INVISIBLE
-            binding.errorInclude.errorTextView.text = exception.message
+            binding.errorInclude.errorTextView.text = message
             binding.errorInclude.errorLayout.visibility = View.VISIBLE
         }
 
