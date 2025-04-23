@@ -1,7 +1,6 @@
 package com.example.kinopoiskappview.data.database
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -18,7 +17,7 @@ interface MoviesDao {
     fun getFavouriteMovie(id: Long): Flow<MovieDbModel?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMovie(movie: MovieDbModel)
+    suspend fun addMovie(movie: MovieDbModel)
 
     @Query("DELETE FROM favourite_movies WHERE id = :id")
     suspend fun deleteMovie(id: Long)

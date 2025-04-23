@@ -37,7 +37,7 @@ class ReviewListFragment : Fragment() {
 
     private val component by lazy {
         (requireActivity().application as App).component
-            .reviewListComponentComponentFactory()
+            .reviewListComponentFactory()
             .create(movie)
     }
 

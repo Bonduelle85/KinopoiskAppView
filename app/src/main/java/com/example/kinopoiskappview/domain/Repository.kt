@@ -11,4 +11,8 @@ interface Repository {
     suspend fun loadMovies(): Flow<Result<List<Movie>>>
     suspend fun loadTrailers(id: Long): Flow<Result<List<Trailer>>>
     suspend fun loadReviews(id: Long): Flow<Result<List<Review>>>
+
+    suspend fun getMovie(movieId: Long): Flow<Movie?>
+    suspend fun addMovie(movie: Movie)
+    suspend fun remove(movieId: Long)
 }

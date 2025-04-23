@@ -6,12 +6,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
+import com.example.kinopoiskappview.App
 import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.FragmentMovieDetailBinding
+import com.example.kinopoiskappview.di.ViewModelFactory
 import com.example.kinopoiskappview.domain.model.Movie
 import com.example.kinopoiskappview.presentation.reviewlist.ReviewListFragment
 import com.example.kinopoiskappview.presentation.trailerlist.TrailerListFragment
+import com.example.kinopoiskappview.presentation.trailerlist.TrailerListViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MovieDetailFragment : Fragment() {
 
@@ -21,9 +31,23 @@ class MovieDetailFragment : Fragment() {
 
     private lateinit var movie: Movie
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy {
+        (requireActivity().application as App).component
+            .movieDetailComponentFactory()
+            .create(movie)
+    }
+
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[MovieDetailViewModel::class.java]
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseParams()
+        component.inject(this)
     }
 
     override fun onCreateView(
@@ -60,11 +84,31 @@ class MovieDetailFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        binding.favouriteImageView.setOnClickListener {
+            when (viewModel.uiState.value) {
+                is CheckboxUiState.Added -> viewModel.removeMovie()
+                is CheckboxUiState.NotAdded -> viewModel.addMovie()
+            }
+        }
+
+        viewModel.getMovie()
+        observeViewModel()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun observeViewModel() {
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.uiState.collectLatest {
+                    it.show(binding)
+                }
+            }
+        }
     }
 
     private fun parseParams() {
