@@ -47,6 +47,16 @@ class Mapper @Inject constructor() {
         genres = movieDbModel.genres
     )
 
+    fun mapDomainToDb(movie: Movie) = MovieDbModel(
+        id = movie.id,
+        name = movie.name,
+        year = movie.year,
+        description = movie.description,
+        kpRating = movie.kpRating,
+        posterUrl = movie.posterUrl,
+        genres = movie.genres
+    )
+
      fun mapDtoToDb(movieDto: MovieDto) = MovieDbModel(
         id = movieDto.id,
         name = movieDto.name,

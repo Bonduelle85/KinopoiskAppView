@@ -38,7 +38,7 @@ class TrailerListFragment : Fragment() {
 
     private val component by lazy {
         (requireActivity().application as App).component
-            .trailerListComponentComponentFactory()
+            .trailerListComponentFactory()
             .create(movie)
     }
 
