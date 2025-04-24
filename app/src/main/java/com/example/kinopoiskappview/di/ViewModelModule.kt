@@ -1,6 +1,7 @@
 package com.example.kinopoiskappview.di
 
 import androidx.lifecycle.ViewModel
+import com.example.kinopoiskappview.presentation.favourite.FavouriteListViewModel
 import com.example.kinopoiskappview.presentation.movielist.MovieListViewModel
 import com.example.kinopoiskappview.presentation.trailerlist.TrailerListViewModel
 import dagger.Binds
@@ -14,4 +15,9 @@ interface ViewModelModule {
     @ViewModelKey(MovieListViewModel::class)
     @Binds
     fun bindMovieListViewModel(movieListViewModel: MovieListViewModel): ViewModel
+
+    @IntoMap
+    @ViewModelKey(FavouriteListViewModel::class)
+    @Binds
+    fun bindFavouriteListViewModel(favouriteListViewModel: FavouriteListViewModel): ViewModel
 }

@@ -40,13 +40,13 @@ class MoviesDaoTest {
     }
 
     @Test
-    fun testInsertMovie() = runBlocking {
+    fun testAddMovie() = runBlocking {
         val movie = MovieDbModel(
             id = 1, name = "movie", year = "2025", description = "some description",
             kpRating = 8.0, posterUrl = "123",
             genres = listOf("комедия", "боевик", "драма")
         )
-        moviesDao.insertMovie(movie)
+        moviesDao.addMovie(movie)
 
         assertEquals(movie, moviesDao.getFavouriteMovie(111).first())
     }
@@ -58,7 +58,7 @@ class MoviesDaoTest {
             kpRating = 8.0, posterUrl = "1",
             genres = listOf("комедия", "боевик", "драма")
         )
-        moviesDao.insertMovie(movie)
+        moviesDao.addMovie(movie)
         moviesDao.deleteMovie(movie.id)
         assertNull(moviesDao.getFavouriteMovie(movie.id).firstOrNull())
     }
@@ -70,7 +70,7 @@ class MoviesDaoTest {
             kpRating = 8.0, posterUrl = "1",
             genres = listOf("комедия", "боевик", "драма")
         )
-        moviesDao.insertMovie(movie)
+        moviesDao.addMovie(movie)
         assertEquals(movie, moviesDao.getFavouriteMovie(1).first())
     }
 
@@ -86,8 +86,8 @@ class MoviesDaoTest {
             kpRating = 8.0, posterUrl = "2",
             genres = listOf("комедия", "боевик")
         )
-        moviesDao.insertMovie(movie1)
-        moviesDao.insertMovie(movie2)
+        moviesDao.addMovie(movie1)
+        moviesDao.addMovie(movie2)
         assertEquals(listOf(movie1, movie2), moviesDao.getFavouriteMovies().first())
     }
 }

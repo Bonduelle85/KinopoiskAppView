@@ -66,21 +66,12 @@ class RepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getMovie(movieId: Long): Flow<Movie?> =
-        moviesDao.getFavouriteMovie(movieId)
-            .map { dbModel ->
-                dbModel?.let { mapper.mapDbToDomain(it) }
-            }.flowOn(Dispatchers.IO)
-
-//    override suspend fun getMovie(movieId: Long): Flow<Movie?> =
-//        moviesDao.getFavouriteMovie(movieId)
-//            .map { dbModel ->
-//                if (dbModel != null) {
-//                    mapper.mapDbToDomain(dbModel)
-//                } else {
-//                    null
-//                }
-//            }.flowOn(Dispatchers.IO)
+    override suspend fun getFavouriteMovie(movieId: Long): Flow<Movie?> =
+        moviesDao.getFavouriteMovie(movieId).map { dbModel ->
+            dbModel?.let {
+                mapper.mapDbToDomain(it)
+            }
+        }.flowOn(Dispatchers.IO)
 
     override suspend fun addMovie(movie: Movie) {
         moviesDao.addMovie(mapper.mapDomainToDb(movie))
@@ -89,6 +80,15 @@ class RepositoryImpl @Inject constructor(
     override suspend fun remove(movieId: Long) {
         moviesDao.deleteMovie(movieId)
     }
+
+    override suspend fun getFavouriteMovies(): Flow<List<Movie>> = moviesDao.getFavouriteMovies()
+        .map {  list ->
+            list.map { dbModel ->
+                mapper.mapDbToDomain(dbModel)
+            }
+        }.flowOn(Dispatchers.IO)
+
+
 
     private fun classifyError(e: Exception): String = when (e) {
         is SocketTimeoutException -> "Connection timeout"
