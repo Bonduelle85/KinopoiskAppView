@@ -57,16 +57,6 @@ class Mapper @Inject constructor() {
         genres = movie.genres
     )
 
-     fun mapDtoToDb(movieDto: MovieDto) = MovieDbModel(
-        id = movieDto.id,
-        name = movieDto.name,
-        year = movieDto.year,
-        description = movieDto.description,
-        kpRating = movieDto.ratingDto.kp.round(1),
-        posterUrl = movieDto.posterDto.url,
-        genres = movieDto.genreDtoList.map { it.genre }
-    )
-
     private fun Double.round(decimals: Int): Double {
         var multiplier = 1.0
         repeat(decimals) { multiplier *= 10 }

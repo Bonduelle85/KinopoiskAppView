@@ -4,9 +4,9 @@ import com.example.kinopoiskappview.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetMovieUseCase @Inject constructor(
+class GetFavouritesUseCase @Inject constructor(
     private val repository: Repository
 ) {
 
-    suspend operator fun  invoke(movieId: Long): Flow<Movie?> = repository.getFavouriteMovie(movieId)
+    suspend operator fun  invoke(): Flow<List<Movie>> = repository.getFavouriteMovies()
 }

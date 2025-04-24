@@ -1,4 +1,4 @@
-package com.example.kinopoiskappview.presentation.movielist
+package com.example.kinopoiskappview.presentation.favourite
 
 import android.content.Context
 import android.os.Bundle
@@ -12,24 +12,22 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.kinopoiskappview.App
 import com.example.kinopoiskappview.R
-import com.example.kinopoiskappview.databinding.FragmentMovieListBinding
+import com.example.kinopoiskappview.databinding.FragmentFavouriteListBinding
 import com.example.kinopoiskappview.di.ViewModelFactory
 import com.example.kinopoiskappview.domain.model.Movie
-import com.example.kinopoiskappview.presentation.favourite.FavouriteListFragment
+import com.example.kinopoiskappview.presentation.favourite.adapter.FavouriteMoviesAdapter
 import com.example.kinopoiskappview.presentation.moviedetail.MovieDetailFragment
-import com.example.kinopoiskappview.presentation.movielist.adapter.MovieAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+class FavouriteListFragment : Fragment() {
 
-class MovieListFragment : Fragment() {
+    private var _binding: FragmentFavouriteListBinding? = null
+    private val binding: FragmentFavouriteListBinding
+        get() = _binding ?: throw RuntimeException("FragmentFavouriteListBinding == null")
 
-    private var _binding: FragmentMovieListBinding? = null
-    private val binding: FragmentMovieListBinding
-        get() = _binding ?: throw RuntimeException("FragmentMovieListBinding == null")
-
-    private lateinit var adapter: MovieAdapter
+    private lateinit var adapter: FavouriteMoviesAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -39,7 +37,7 @@ class MovieListFragment : Fragment() {
     }
 
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[MovieListViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[FavouriteListViewModel::class.java]
     }
 
     override fun onAttach(context: Context) {
@@ -51,25 +49,17 @@ class MovieListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMovieListBinding.inflate(inflater, container, false)
+        _binding = FragmentFavouriteListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MovieAdapter(requireActivity())
+
+        adapter = FavouriteMoviesAdapter()
         binding.movieListRecyclerView.adapter = adapter
-        observeViewModel()
 
-        adapter.setOnReachEndListListener {
-            viewModel.loadMovies()
-        }
-
-        binding.errorInclude.tryAgainButton.setOnClickListener {
-            viewModel.loadMovies()
-        }
-
-        adapter.setOnMovieClickListener { movie: Movie ->
+        adapter.setOnFavouriteMovieClickListener { movie: Movie ->
             // TODO navigation to movie detail screen
             requireActivity().supportFragmentManager
                 .beginTransaction()
@@ -78,15 +68,9 @@ class MovieListFragment : Fragment() {
                 .commit()
         }
 
-        binding.floatingActionButton.setOnClickListener {
-            // TODO navigation to movie detail screen
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, FavouriteListFragment.newInstance())
-                .addToBackStack(null)
-                .commit()
-        }
+        observeViewModel()
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -96,9 +80,8 @@ class MovieListFragment : Fragment() {
     private fun observeViewModel() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.uiState.collectLatest {
-                    it.showList(adapter)
-                    it.show(binding)
+                viewModel.uiState.collectLatest { uiState ->
+                    uiState.showList(adapter)
                 }
             }
         }
@@ -106,6 +89,6 @@ class MovieListFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = MovieListFragment()
+        fun newInstance() = FavouriteListFragment()
     }
 }
