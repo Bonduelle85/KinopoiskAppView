@@ -16,6 +16,8 @@ import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.FragmentReviewListBinding
 import com.example.kinopoiskappview.di.ViewModelFactory
 import com.example.kinopoiskappview.domain.model.Movie
+import com.example.kinopoiskappview.navigation.MovieListNavigation
+import com.example.kinopoiskappview.navigation.ReviewListNavigation
 import com.example.kinopoiskappview.presentation.reviewlist.adapter.ReviewAdapter
 import com.example.kinopoiskappview.presentation.reviewlist.adapter.ReviewItemDecoration
 import kotlinx.coroutines.flow.collectLatest
@@ -74,6 +76,10 @@ class ReviewListFragment : Fragment() {
         viewModel.loadReviews()
 
         observeViewModel()
+
+        binding.floatingActionButton.setOnClickListener {
+            (requireActivity() as ReviewListNavigation).toFavouriteListScreen()
+        }
     }
 
     override fun onDestroyView() {
