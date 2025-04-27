@@ -10,6 +10,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kinopoiskappview.App
 import com.example.kinopoiskappview.databinding.FragmentFavouriteListBinding
 import com.example.kinopoiskappview.di.ViewModelFactory
@@ -26,14 +28,14 @@ class FavouriteListFragment : Fragment() {
     private val binding: FragmentFavouriteListBinding
         get() = _binding ?: throw RuntimeException("FragmentFavouriteListBinding == null")
 
-    private lateinit var adapter: FavouriteMoviesAdapter
-
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     private val component by lazy {
         (requireActivity().application as App).component
     }
+
+    private val adapter by lazy { FavouriteMoviesAdapter() }
 
     private val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[FavouriteListViewModel::class.java]
@@ -55,14 +57,19 @@ class FavouriteListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = FavouriteMoviesAdapter()
-        binding.movieListRecyclerView.adapter = adapter
+        setupRecyclerView()
+        observeViewModel()
+    }
+
+    private fun setupRecyclerView() {
+        val recyclerView = binding.movieListRecyclerView
+        recyclerView.adapter = adapter
 
         adapter.setOnFavouriteMovieClickListener { movie: Movie ->
             (requireActivity() as FavouriteListNavigation).toMovieDetailScreen(movie)
         }
 
-        observeViewModel()
+        setupSwipeListener(recyclerView, adapter)
     }
 
 
@@ -79,6 +86,12 @@ class FavouriteListFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setupSwipeListener(recyclerView: RecyclerView, adapter: FavouriteMoviesAdapter) {
+        val callback = FavoriteMovieSwipeCallback(adapter, viewModel)
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     companion object {
