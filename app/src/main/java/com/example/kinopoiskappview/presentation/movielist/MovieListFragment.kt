@@ -27,10 +27,10 @@ class MovieListFragment : Fragment() {
     private val binding: FragmentMovieListBinding
         get() = _binding ?: throw RuntimeException("FragmentMovieListBinding == null")
 
-    private lateinit var adapter: MovieAdapter
-
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    private val adapter by lazy { MovieAdapter() }
 
     private val component by lazy {
         (requireActivity().application as App).component
@@ -55,7 +55,6 @@ class MovieListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MovieAdapter(requireActivity())
         binding.movieListRecyclerView.adapter = adapter
         observeViewModel()
 

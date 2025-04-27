@@ -5,18 +5,13 @@ import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.TouchDelegateInfoCompat
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.MovieItemBinding
 import com.example.kinopoiskappview.domain.model.Movie
-import com.example.kinopoiskappview.domain.model.Trailer
-import com.example.kinopoiskappview.presentation.trailerlist.adapter.TrailerDiffCallback
 
-class MovieAdapter(
-    private val context: Context
-) : ListAdapter<Movie, MovieViewHolder>(MovieDiffCallback()), UpdateMovieList {
+class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieDiffCallback()), UpdateMovieList {
 
     private var onMovieClickListener: OnMovieClickListener? = null
     private var onReachEndListListener: OnReachEndListListener? = null
@@ -36,9 +31,10 @@ class MovieAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+        val context = holder.binding.root.context
         val movieItem = getItem(position)
         val kpRating = movieItem.kpRating
-        val backgroundColor = setBackgroundColor(kpRating, holder)
+        val backgroundColor = setBackgroundColor(kpRating, context)
         holder.binding.ratingTextView.background = backgroundColor
         holder.binding.ratingTextView.text = kpRating.toString()
         Glide.with(context)
@@ -54,14 +50,13 @@ class MovieAdapter(
         }
     }
 
-    private fun setBackgroundColor(kpRating: Double, holder: MovieViewHolder): Drawable? {
+    private fun setBackgroundColor(kpRating: Double, context: Context): Drawable? {
         val backgroundId = when {
             kpRating > 7 -> R.drawable.rating_background_high
             kpRating > 5 -> R.drawable.rating_background_medium
             else -> R.drawable.rating_background_low
         }
-        val background = ContextCompat.getDrawable(holder.itemView.context, backgroundId)
-        return background
+        return ContextCompat.getDrawable(context, backgroundId)
     }
 
     override fun update(list: List<Movie>) = submitList(list)

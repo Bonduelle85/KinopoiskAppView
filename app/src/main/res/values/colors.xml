@@ -3,9 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="rating_high_background">#4CAF50</color>
-    <color name="rating_medium_background">#FF9800</color>
-    <color name="rating_low_background">#F44336</color>
+    <color name="rating_high_color">#4CAF50</color>
+    <color name="rating_medium_color">#FF9800</color>
+    <color name="rating_low_color">#F44336</color>
 
     <color name="year_color">#673AB7</color>
 
