@@ -2,23 +2,20 @@ package com.example.kinopoiskappview.presentation.moviedetail
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.example.kinopoiskappview.App
-import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.FragmentMovieDetailBinding
 import com.example.kinopoiskappview.di.ViewModelFactory
 import com.example.kinopoiskappview.domain.model.Movie
-import com.example.kinopoiskappview.presentation.reviewlist.ReviewListFragment
-import com.example.kinopoiskappview.presentation.trailerlist.TrailerListFragment
-import com.example.kinopoiskappview.presentation.trailerlist.TrailerListViewModel
+import com.example.kinopoiskappview.navigation.MovieDetailNavigation
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -69,20 +66,10 @@ class MovieDetailFragment : Fragment() {
         binding.genresTextView.text = movie.genres.joinToString(SPACE)
 
         binding.reviewButton.setOnClickListener {
-            // TODO navigation to review screen
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, ReviewListFragment.newInstance(movie))
-                .addToBackStack(null)
-                .commit()
+            (requireActivity() as MovieDetailNavigation).toReviewListScreen(movie)
         }
         binding.trailerButton.setOnClickListener {
-            // TODO navigation to trailer screen
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, TrailerListFragment.newInstance(movie))
-                .addToBackStack(null)
-                .commit()
+            (requireActivity() as MovieDetailNavigation).toTrailerListScreen(movie)
         }
 
         binding.favouriteImageView.setOnClickListener {

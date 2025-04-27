@@ -11,12 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.kinopoiskappview.App
-import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.FragmentMovieListBinding
 import com.example.kinopoiskappview.di.ViewModelFactory
 import com.example.kinopoiskappview.domain.model.Movie
-import com.example.kinopoiskappview.presentation.favourite.FavouriteListFragment
-import com.example.kinopoiskappview.presentation.moviedetail.MovieDetailFragment
+import com.example.kinopoiskappview.navigation.MovieListNavigation
 import com.example.kinopoiskappview.presentation.movielist.adapter.MovieAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -70,21 +68,11 @@ class MovieListFragment : Fragment() {
         }
 
         adapter.setOnMovieClickListener { movie: Movie ->
-            // TODO navigation to movie detail screen
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, MovieDetailFragment.newInstance(movie))
-                .addToBackStack(null)
-                .commit()
+            (requireActivity() as MovieListNavigation).toMovieDetailScreen(movie)
         }
 
         binding.floatingActionButton.setOnClickListener {
-            // TODO navigation to movie detail screen
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, FavouriteListFragment.newInstance())
-                .addToBackStack(null)
-                .commit()
+            (requireActivity() as MovieListNavigation).toFavouriteListScreen()
         }
     }
 

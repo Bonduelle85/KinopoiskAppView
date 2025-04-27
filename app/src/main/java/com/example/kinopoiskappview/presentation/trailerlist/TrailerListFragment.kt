@@ -22,6 +22,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import androidx.core.net.toUri
 import com.example.kinopoiskappview.databinding.FragmentTrailerListBinding
+import com.example.kinopoiskappview.navigation.MovieListNavigation
+import com.example.kinopoiskappview.navigation.TrailerListNavigation
 
 
 class TrailerListFragment : Fragment() {
@@ -80,6 +82,10 @@ class TrailerListFragment : Fragment() {
         viewModel.loadTrailers()
 
         observeViewModel()
+
+        binding.floatingActionButton.setOnClickListener {
+            (requireActivity() as TrailerListNavigation).toFavouriteListScreen()
+        }
     }
 
     override fun onDestroyView() {

@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.kinopoiskappview.App
 import com.example.kinopoiskappview.R
 import com.example.kinopoiskappview.databinding.ActivityMainBinding
+import com.example.kinopoiskappview.navigation.Navigation
+import com.example.kinopoiskappview.navigation.Screen
 import com.example.kinopoiskappview.presentation.movielist.MovieListFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Navigation {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -27,5 +29,9 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.fragmentContainer, MovieListFragment.newInstance())
                 .commit()
         }
+    }
+
+    override fun navigate(screen: Screen) {
+        screen.show(R.id.fragmentContainer, supportFragmentManager)
     }
 }
