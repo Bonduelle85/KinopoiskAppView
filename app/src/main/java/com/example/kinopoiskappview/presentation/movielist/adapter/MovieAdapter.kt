@@ -16,11 +16,11 @@ class MovieAdapter : ListAdapter<Movie, MovieViewHolder>(MovieDiffCallback()), U
     private var onMovieClickListener: OnMovieClickListener? = null
     private var onReachEndListListener: OnReachEndListListener? = null
 
-    fun setOnMovieClickListener (onMovieClickListener: OnMovieClickListener) {
+    fun setOnMovieClickListener(onMovieClickListener: OnMovieClickListener) {
         this.onMovieClickListener = onMovieClickListener
     }
 
-    fun setOnReachEndListListener (onReachEndListListener: OnReachEndListListener) {
+    fun setOnReachEndListListener(onReachEndListListener: OnReachEndListListener) {
         this.onReachEndListListener = onReachEndListListener
     }
 

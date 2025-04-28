@@ -15,7 +15,7 @@ class FavouriteListViewModel @Inject constructor(
     private val removeMovieUseCase: RemoveMovieUseCase,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<FavouriteMoviesUiState>(FavouriteMoviesUiState.Empty)
+    private val _uiState = MutableStateFlow<FavouriteMoviesUiState>(FavouriteMoviesUiState.Initial)
     val uiState: StateFlow<FavouriteMoviesUiState> = _uiState
 
     init {
@@ -36,6 +36,10 @@ class FavouriteListViewModel @Inject constructor(
         }
     }
 
-    private fun List<Movie>.toUiState(): FavouriteMoviesUiState =
-        FavouriteMoviesUiState.FavouriteMovies(this)
+    private fun List<Movie>.toUiState(): FavouriteMoviesUiState {
+        return if (this.isEmpty()) {
+            FavouriteMoviesUiState.EmptyWithMessage
+        } else
+            FavouriteMoviesUiState.Movies(this)
+    }
 }

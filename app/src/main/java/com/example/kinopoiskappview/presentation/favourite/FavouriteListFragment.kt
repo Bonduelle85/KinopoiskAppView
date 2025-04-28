@@ -83,6 +83,7 @@ class FavouriteListFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.uiState.collectLatest { uiState ->
                     uiState.showList(adapter)
+                    uiState.showUi(binding)
                 }
             }
         }
