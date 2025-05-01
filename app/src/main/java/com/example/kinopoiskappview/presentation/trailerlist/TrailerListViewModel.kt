@@ -3,15 +3,11 @@ package com.example.kinopoiskappview.presentation.trailerlist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kinopoiskappview.di.MovieQualifier
-import com.example.kinopoiskappview.domain.LoadReviewsUseCase
 import com.example.kinopoiskappview.domain.LoadTrailersUseCase
 import com.example.kinopoiskappview.domain.model.Movie
 import com.example.kinopoiskappview.domain.model.Result
-import com.example.kinopoiskappview.domain.model.Review
-import com.example.kinopoiskappview.domain.model.Trailer
-import com.example.kinopoiskappview.presentation.reviewlist.ReviewsUiState
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +17,7 @@ class TrailerListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<TrailersUiState>(TrailersUiState.Loading)
-    val uiState: StateFlow<TrailersUiState> = _uiState
+    val uiState get() = _uiState.asStateFlow()
 
     fun loadTrailers() {
         viewModelScope.launch {

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.kinopoiskappview.domain.LoadMoviesUseCase
 import com.example.kinopoiskappview.domain.model.Result
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class MovieListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MoviesUiState>(MoviesUiState.Loading)
-    val uiState: StateFlow<MoviesUiState> = _uiState
+    val uiState get() = _uiState.asStateFlow()
 
     init {
         loadMovies()
