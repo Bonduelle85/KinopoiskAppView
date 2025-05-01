@@ -8,7 +8,8 @@ import com.example.kinopoiskappview.domain.GetMovieUseCase
 import com.example.kinopoiskappview.domain.RemoveMovieUseCase
 import com.example.kinopoiskappview.domain.model.Movie
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,12 +21,12 @@ class MovieDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<CheckboxUiState>(CheckboxUiState.NotAdded)
-    val uiState: StateFlow<CheckboxUiState> = _uiState
+    val uiState get() = _uiState.asStateFlow()
 
     fun getMovie() {
         viewModelScope.launch {
             getMovieUseCase.invoke(movie.id).collect { movie: Movie? ->
-                _uiState.value = movie.toUiState()
+                _uiState.update { movie.toUiState() }
             }
         }
     }

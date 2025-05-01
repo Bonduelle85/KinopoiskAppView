@@ -22,7 +22,7 @@ sealed interface FavouriteMoviesUiState {
         }
     }
 
-    class Movies(
+    data class Movies(
         private val list: List<Movie>,
     ) : FavouriteMoviesUiState {
         override fun showList(updateFavouriteList: UpdateFavouriteList) {
